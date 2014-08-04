@@ -13,3 +13,6 @@ SOURCES += \
 HEADERS += \
     mainwindow.h \
     goprocontroller.h
+
+FORMS += \
+    mainwindow.ui
