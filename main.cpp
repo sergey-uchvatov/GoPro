@@ -8,8 +8,8 @@ int main(int argc, char *argv[])
 
     MainWindow mainWindow;
 
-    mainWindow.setFixedSize(400, 300);
+//    mainWindow.setFixedSize(400, 300);
     mainWindow.show();
-
+//     mainWindow.setCentralWidget(this);
     return app.exec();
 }

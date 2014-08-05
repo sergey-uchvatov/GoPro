@@ -7,12 +7,17 @@
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    goprocontroller.cpp
+    goprocontroller.cpp \
+#    _mainwindow.cpp \
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    goprocontroller.h
+    goprocontroller.h \
+#    _mainwindow.h \
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
+
+RESOURCES += \
+    main.qrc
