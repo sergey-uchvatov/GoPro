@@ -8,13 +8,13 @@
 SOURCES += \
     main.cpp \
     goprocontroller.cpp \
-#    _mainwindow.cpp \
     mainwindow.cpp
+    _mainwindow.cpp \
 
 HEADERS += \
     goprocontroller.h \
-#    _mainwindow.h \
     mainwindow.h
+    _mainwindow.h \
 
 FORMS += \
     mainwindow.ui

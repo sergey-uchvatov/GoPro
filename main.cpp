@@ -1,15 +1,14 @@
 #include <QDebug>
-#include "mainwindow.h"
 #include <QApplication>
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
     MainWindow mainWindow;
-
-//    mainWindow.setFixedSize(400, 300);
     mainWindow.show();
-//     mainWindow.setCentralWidget(this);
+
     return app.exec();
+
 }

@@ -22,8 +22,11 @@
     <height>600</height>
    </size>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>GoPro App</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:#000000;

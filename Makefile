@@ -46,14 +46,16 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = main.cpp \
-		mainwindow.cpp \
-		goprocontroller.cpp moc_mainwindow.cpp \
-		moc_goprocontroller.cpp
+		goprocontroller.cpp \
+		mainwindow.cpp qrc_main.cpp \
+		moc_goprocontroller.cpp \
+		moc_mainwindow.cpp
 OBJECTS       = main.o \
-		mainwindow.o \
 		goprocontroller.o \
-		moc_mainwindow.o \
-		moc_goprocontroller.o
+		mainwindow.o \
+		qrc_main.o \
+		moc_goprocontroller.o \
+		moc_mainwindow.o
 DIST          = /home/sergey/Qt/5.3/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/common/shell-unix.conf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/common/unix.conf \
@@ -162,8 +164,8 @@ DIST          = /home/sergey/Qt/5.3/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/yacc.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/lex.prf \
 		hello.pro main.cpp \
-		mainwindow.cpp \
-		goprocontroller.cpp
+		goprocontroller.cpp \
+		mainwindow.cpp
 QMAKE_TARGET  = hello
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = hello
@@ -304,6 +306,7 @@ Makefile: hello.pro /home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf /hom
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/yacc.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/lex.prf \
 		hello.pro \
+		main.qrc \
 		/home/sergey/Qt/5.3/gcc_64/lib/libQt5Widgets.prl \
 		/home/sergey/Qt/5.3/gcc_64/lib/libQt5Gui.prl \
 		/home/sergey/Qt/5.3/gcc_64/lib/libQt5Core.prl \
@@ -417,6 +420,7 @@ Makefile: hello.pro /home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf /hom
 /home/sergey/Qt/5.3/gcc_64/mkspecs/features/yacc.prf:
 /home/sergey/Qt/5.3/gcc_64/mkspecs/features/lex.prf:
 hello.pro:
+main.qrc:
 /home/sergey/Qt/5.3/gcc_64/lib/libQt5Widgets.prl:
 /home/sergey/Qt/5.3/gcc_64/lib/libQt5Gui.prl:
 /home/sergey/Qt/5.3/gcc_64/lib/libQt5Core.prl:
@@ -428,7 +432,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/hello1.0.0 || mkdir -p .tmp/hello1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/hello1.0.0/ && $(COPY_FILE) --parents mainwindow.h goprocontroller.h .tmp/hello1.0.0/ && $(COPY_FILE) --parents main.cpp mainwindow.cpp goprocontroller.cpp .tmp/hello1.0.0/ && $(COPY_FILE) --parents mainwindow.ui .tmp/hello1.0.0/ && (cd `dirname .tmp/hello1.0.0` && $(TAR) hello1.0.0.tar hello1.0.0 && $(COMPRESS) hello1.0.0.tar) && $(MOVE) `dirname .tmp/hello1.0.0`/hello1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/hello1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/hello1.0.0/ && $(COPY_FILE) --parents main.qrc .tmp/hello1.0.0/ && $(COPY_FILE) --parents goprocontroller.h mainwindow.h .tmp/hello1.0.0/ && $(COPY_FILE) --parents main.cpp goprocontroller.cpp mainwindow.cpp .tmp/hello1.0.0/ && $(COPY_FILE) --parents mainwindow.ui .tmp/hello1.0.0/ && (cd `dirname .tmp/hello1.0.0` && $(TAR) hello1.0.0.tar hello1.0.0 && $(COMPRESS) hello1.0.0.tar) && $(MOVE) `dirname .tmp/hello1.0.0`/hello1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/hello1.0.0
 
 
 clean:compiler_clean 
@@ -449,11 +453,111 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
 check: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_main.cpp
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_goprocontroller.cpp
+	-$(DEL_FILE) qrc_main.cpp
+qrc_main.cpp: main.qrc \
+		logo.png
+	/home/sergey/Qt/5.3/gcc_64/bin/rcc -name main main.qrc -o qrc_main.cpp
+
+compiler_moc_header_make_all: moc_goprocontroller.cpp moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_goprocontroller.cpp
+	-$(DEL_FILE) moc_goprocontroller.cpp moc_mainwindow.cpp
+moc_goprocontroller.cpp: /home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstring.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qchar.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qglobal.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qconfig.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfeatures.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtypetraits.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsysinfo.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlogging.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qflags.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv7.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv6.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv5.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_ia64.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_mips.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_x86.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_gcc.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_unix.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmutex.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qnumeric.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qbytearray.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qrefcount.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qnamespace.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qarraydata.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QObject \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobject.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlist.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qalgorithms.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qiterator.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreevent.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmetatype.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qisenum.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobject_impl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qshareddata.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qregexp.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qiodevice.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdebug.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qhash.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpair.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmap.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtextstream.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlocale.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvariant.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringlist.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatastream.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvector.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpoint.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qset.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QFlags \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QIODevice \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QUrl \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurlquery.h \
+		goprocontroller.h
+	/home/sergey/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/var/www/gopro/app -I/home/sergey/Qt/5.3/gcc_64/include -I/home/sergey/Qt/5.3/gcc_64/include/QtWidgets -I/home/sergey/Qt/5.3/gcc_64/include/QtNetwork -I/home/sergey/Qt/5.3/gcc_64/include/QtGui -I/home/sergey/Qt/5.3/gcc_64/include/QtCore goprocontroller.h -o moc_goprocontroller.cpp
+
 moc_mainwindow.cpp: /home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qwidget.h \
@@ -557,138 +661,8 @@ moc_mainwindow.cpp: /home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QPushButton \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QTabWidget \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QCoreApplication \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qeventloop.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMessageBox \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmessagebox.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/QImage \
-		goprocontroller.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QObject \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QFlags \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QIODevice \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QUrl \
 		mainwindow.h
 	/home/sergey/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/var/www/gopro/app -I/home/sergey/Qt/5.3/gcc_64/include -I/home/sergey/Qt/5.3/gcc_64/include/QtWidgets -I/home/sergey/Qt/5.3/gcc_64/include/QtNetwork -I/home/sergey/Qt/5.3/gcc_64/include/QtGui -I/home/sergey/Qt/5.3/gcc_64/include/QtCore mainwindow.h -o moc_mainwindow.cpp
-
-moc_goprocontroller.cpp: /home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstring.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qchar.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qglobal.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qconfig.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfeatures.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtypetraits.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsysinfo.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlogging.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qflags.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_msvc.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv7.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv6.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv5.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_ia64.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_mips.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_x86.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_gcc.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_unix.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmutex.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qnumeric.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qbytearray.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qrefcount.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qnamespace.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qarraydata.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QObject \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobject.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlist.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qalgorithms.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qiterator.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreevent.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmetatype.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qisenum.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobject_impl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qshareddata.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qregexp.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qiodevice.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdebug.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qhash.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpair.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmap.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtextstream.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlocale.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvariant.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringlist.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatastream.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvector.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpoint.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qset.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QFlags \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QIODevice \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QUrl \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurlquery.h \
-		goprocontroller.h
-	/home/sergey/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/var/www/gopro/app -I/home/sergey/Qt/5.3/gcc_64/include -I/home/sergey/Qt/5.3/gcc_64/include/QtWidgets -I/home/sergey/Qt/5.3/gcc_64/include/QtNetwork -I/home/sergey/Qt/5.3/gcc_64/include/QtGui -I/home/sergey/Qt/5.3/gcc_64/include/QtCore goprocontroller.h -o moc_goprocontroller.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -704,7 +678,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -774,227 +748,53 @@ main.o: main.cpp /home/sergey/Qt/5.3/gcc_64/include/QtCore/QDebug \
 		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpoint.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qset.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QApplication \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qapplication.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qeventloop.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsize.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qcursor.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qwidget.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmargins.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qrect.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpalette.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qcolor.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qrgb.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qbrush.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qmatrix.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpolygon.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qregion.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qline.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtransform.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpainterpath.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qimage.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpixmap.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfont.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfontinfo.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qkeysequence.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qevent.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurlquery.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfile.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfiledevice.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qvector2d.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qguiapplication.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qinputmethod.h \
 		mainwindow.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qwidget.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmargins.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qrect.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsize.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpalette.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qcolor.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qrgb.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qbrush.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qmatrix.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpolygon.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qregion.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qline.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtransform.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpainterpath.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qimage.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpixmap.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfont.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfontinfo.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qcursor.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qkeysequence.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qevent.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurlquery.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfile.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfiledevice.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qvector2d.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QPushButton \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QTabWidget \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QCoreApplication \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qeventloop.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMessageBox \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmessagebox.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/QImage \
-		goprocontroller.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QObject \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QFlags \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QIODevice \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QUrl \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QApplication \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qapplication.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qguiapplication.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qinputmethod.h
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
-
-mainwindow.o: mainwindow.cpp mainwindow.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmainwindow.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qwidget.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qwindowdefs.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qglobal.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qconfig.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfeatures.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsystemdetection.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qprocessordetection.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcompilerdetection.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtypeinfo.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtypetraits.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsysinfo.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlogging.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qflags.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qbasicatomic.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_bootstrap.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qgenericatomic.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_msvc.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv7.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv6.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv5.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_ia64.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_mips.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_x86.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_cxx11.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_gcc.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_unix.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qglobalstatic.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmutex.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qnumeric.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobjectdefs.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qnamespace.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobject.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstring.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qchar.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qbytearray.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qrefcount.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qarraydata.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringbuilder.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlist.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qalgorithms.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qiterator.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreevent.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qscopedpointer.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmetatype.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvarlengtharray.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontainerfwd.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qisenum.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobject_impl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmargins.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpaintdevice.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qrect.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsize.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpoint.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpalette.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qcolor.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qrgb.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringlist.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatastream.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qiodevice.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpair.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qregexp.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringmatcher.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qbrush.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvector.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qmatrix.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpolygon.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qregion.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qline.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtransform.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpainterpath.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qimage.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpixmap.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qshareddata.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qhash.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfont.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfontmetrics.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfontinfo.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qcursor.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qkeysequence.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qevent.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvariant.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmap.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdebug.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtextstream.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlocale.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qset.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontiguouscache.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurlquery.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfile.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfiledevice.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qvector2d.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QPushButton \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QTabWidget \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QCoreApplication \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qeventloop.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMessageBox \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmessagebox.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/QImage \
-		goprocontroller.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QObject \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QFlags \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QIODevice \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
-		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QUrl
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
 goprocontroller.o: goprocontroller.cpp goprocontroller.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
@@ -1230,11 +1030,160 @@ goprocontroller.o: goprocontroller.cpp goprocontroller.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtnetworkversion.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o goprocontroller.o goprocontroller.cpp
 
-moc_mainwindow.o: moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+mainwindow.o: mainwindow.cpp mainwindow.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmainwindow.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qwidget.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qglobal.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qconfig.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfeatures.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtypetraits.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsysinfo.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlogging.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qflags.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv7.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv6.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_armv5.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_ia64.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_mips.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_x86.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_gcc.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qatomic_unix.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmutex.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qnumeric.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qnamespace.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobject.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstring.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qchar.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qbytearray.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qrefcount.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qarraydata.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlist.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qalgorithms.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qiterator.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreevent.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmetatype.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qisenum.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qobject_impl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmargins.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qrect.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsize.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpoint.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpalette.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qcolor.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qrgb.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringlist.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatastream.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qiodevice.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qpair.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qregexp.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qbrush.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvector.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qmatrix.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpolygon.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qregion.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qline.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtransform.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpainterpath.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qimage.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qpixmap.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qshareddata.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qhash.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfont.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qfontinfo.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qcursor.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qkeysequence.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qevent.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qvariant.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qmap.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdebug.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qtextstream.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qlocale.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qset.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qurlquery.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfile.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qfiledevice.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qvector2d.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h \
+		ui_mainwindow.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QAction \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qaction.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qactiongroup.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QApplication \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qapplication.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qeventloop.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qguiapplication.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qinputmethod.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QButtonGroup \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QHeaderView \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qheaderview.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qframe.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qvalidator.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qregularexpression.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qslider.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qstyle.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMenuBar \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmenubar.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmenu.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QPushButton \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QStatusBar \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QWidget
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
+
+qrc_main.o: qrc_main.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_main.o qrc_main.cpp
 
 moc_goprocontroller.o: moc_goprocontroller.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_goprocontroller.o moc_goprocontroller.cpp
+
+moc_mainwindow.o: moc_mainwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 ####### Install
 
