@@ -18,7 +18,7 @@ GoproController::GoproController(QObject *parent)
 
     statusTable["bacpac/se"]["power"]["a"] = 18;
     statusTable["bacpac/se"]["power"]["b"] = 20;
-    statusTable["bacpac/se"]["power"]["translate"] = std::map <QString, int> {"3",3};
+    statusTable["bacpac/se"]["power"]["translate"] = 0;
 
     statusTable["camera/se"]["batt1"]["a"] = 38;
     statusTable["camera/se"]["batt1"]["b"] = 40;

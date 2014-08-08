@@ -1,5 +1,6 @@
 #include <QDebug>
 #include <QApplication>
+#include "goprocontroller.h"
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -8,6 +9,7 @@ int main(int argc, char *argv[])
 
     MainWindow mainWindow;
     mainWindow.show();
+
 
     return app.exec();
 

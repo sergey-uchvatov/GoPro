@@ -40,7 +40,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">backround-color:#cccccc;</string>
+     <string notr="true">background-color:#dfdfdf;</string>
     </property>
     <property name="text">
      <string>On</string>
@@ -74,6 +74,9 @@
       <height>71</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#dfdfdf;</string>
+    </property>
     <property name="text">
      <string>Record</string>
     </property>
@@ -88,29 +91,22 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">backround-color:#cccccc;</string>
+     <string notr="true">background-color:#fdfdfd;</string>
     </property>
-    <widget class="QWidget" name="tab">
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="general">
      <attribute name="title">
       <string>Tab 1</string>
      </attribute>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="capture">
      <attribute name="title">
       <string>Tab 2</string>
      </attribute>
     </widget>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>509</width>
-     <height>25</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

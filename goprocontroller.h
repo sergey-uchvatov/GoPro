@@ -6,11 +6,11 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QUrl>
-
+#include <map>
 
 class GoproController : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     static GoproController* getInstance();
@@ -26,17 +26,21 @@ public:
 
     bool cameraAvailable();
 
+//    std::map<Q,int> statusTable;
+    std::map<QString,std::map<QString,std::map<QString,int> > > statusTable;
+
+    void getStatus(QString command);
 private:
+
     QNetworkReply *reply;
 
     QString _ip,
-         _password,
-         _device,
-         _command,
-         _app;
+    _password,
+    _device,
+    _command,
+    _app;
 
     QUrl makeUrl(QString command, QString value);
-    void getStatus(QString command);
 
     void setIp(QString ip);
     void setPassword(QString password);
