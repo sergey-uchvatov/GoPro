@@ -6,11 +6,19 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QUrl>
-#include <map>
+#include <QMap>
 
 class GoproController : public QObject
 {
     Q_OBJECT
+
+    struct Section {
+        int startByte;
+        int length;
+        QMap <QString, QString> translate;
+    };
+
+    Section getSection(int startByte, int length, QMap<QString, QString> translate);
 
 public:
     static GoproController* getInstance();
@@ -26,8 +34,11 @@ public:
 
     bool cameraAvailable();
 
-//    std::map<Q,int> statusTable;
-    std::map<QString,std::map<QString,std::map<QString,int> > > statusTable;
+//    std::map<QString,std::map<QString,std::map<QString,int> > > statusTable;
+
+
+    QMap <QString, QMap <QString, Section> > status;
+
 
     void getStatus(QString command);
 private:

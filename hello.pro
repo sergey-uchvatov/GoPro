@@ -1,7 +1,9 @@
-    TEMPLATE = app
-    TARGET = hello
+TEMPLATE = app
+TARGET = hello
 
-    QT = core gui network
+CONFIG  += c++11
+
+QT = core gui network
 
     greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

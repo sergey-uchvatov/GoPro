@@ -14,7 +14,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
+CXXFLAGS      = -pipe -g -std=c++0x -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 INCPATH       = -I/home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++ -I. -I/home/sergey/Qt/5.3/gcc_64/include -I/home/sergey/Qt/5.3/gcc_64/include/QtWidgets -I/home/sergey/Qt/5.3/gcc_64/include/QtNetwork -I/home/sergey/Qt/5.3/gcc_64/include/QtGui -I/home/sergey/Qt/5.3/gcc_64/include/QtCore -I. -I.
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/sergey/Qt/5.3/gcc_64 -Wl,-rpath,/home/sergey/Qt/5.3/gcc_64/lib
@@ -152,6 +152,7 @@ DIST          = /home/sergey/Qt/5.3/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/default_pre.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/resolve_config.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/default_post.prf \
+		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/c++11.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/warn_on.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/qt.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/resources.prf \
@@ -294,6 +295,7 @@ Makefile: hello.pro /home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf /hom
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/default_pre.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/resolve_config.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/default_post.prf \
+		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/c++11.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/warn_on.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/qt.prf \
 		/home/sergey/Qt/5.3/gcc_64/mkspecs/features/resources.prf \
@@ -408,6 +410,7 @@ Makefile: hello.pro /home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf /hom
 /home/sergey/Qt/5.3/gcc_64/mkspecs/features/default_pre.prf:
 /home/sergey/Qt/5.3/gcc_64/mkspecs/features/resolve_config.prf:
 /home/sergey/Qt/5.3/gcc_64/mkspecs/features/default_post.prf:
+/home/sergey/Qt/5.3/gcc_64/mkspecs/features/c++11.prf:
 /home/sergey/Qt/5.3/gcc_64/mkspecs/features/warn_on.prf:
 /home/sergey/Qt/5.3/gcc_64/mkspecs/features/qt.prf:
 /home/sergey/Qt/5.3/gcc_64/mkspecs/features/resources.prf:
@@ -661,6 +664,40 @@ moc_mainwindow.cpp: /home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QPushButton \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QTabWidget \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QCoreApplication \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qeventloop.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMessageBox \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
+		goprocontroller.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QObject \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QFlags \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QIODevice \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QUrl \
 		mainwindow.h
 	/home/sergey/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/sergey/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/var/www/gopro/app -I/home/sergey/Qt/5.3/gcc_64/include -I/home/sergey/Qt/5.3/gcc_64/include/QtWidgets -I/home/sergey/Qt/5.3/gcc_64/include/QtNetwork -I/home/sergey/Qt/5.3/gcc_64/include/QtGui -I/home/sergey/Qt/5.3/gcc_64/include/QtCore mainwindow.h -o moc_mainwindow.cpp
 
@@ -789,11 +826,43 @@ main.o: main.cpp /home/sergey/Qt/5.3/gcc_64/include/QtCore/QDebug \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qguiapplication.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qinputmethod.h \
+		goprocontroller.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QObject \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QFlags \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QIODevice \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QUrl \
 		mainwindow.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h
+		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QPushButton \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QTabWidget \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QCoreApplication \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMessageBox \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 goprocontroller.o: goprocontroller.cpp goprocontroller.h \
@@ -1134,15 +1203,46 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qicon.h \
-		ui_mainwindow.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QPushButton \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QTabWidget \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QCoreApplication \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qeventloop.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMessageBox \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
+		goprocontroller.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QString \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QObject \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QFlags \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QIODevice \
 		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QVariant \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
+		/home/sergey/Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/sergey/Qt/5.3/gcc_64/include/QtCore/QUrl \
+		ui_mainwindow.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QAction \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qaction.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qactiongroup.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QApplication \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qapplication.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtCore/qeventloop.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qguiapplication.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtGui/qinputmethod.h \
@@ -1165,12 +1265,11 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qstyle.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qtabbar.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QLabel \
+		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qlabel.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QMenuBar \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmenubar.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qmenu.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QPushButton \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qabstractbutton.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QStatusBar \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/qstatusbar.h \
 		/home/sergey/Qt/5.3/gcc_64/include/QtWidgets/QWidget
